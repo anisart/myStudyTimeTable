@@ -1,27 +1,26 @@
 #include "editwindow.h"
 #include <QLabel>
-#include <QLineEdit>
-#include <QPushButton>
-#include <QComboBox>
 #include <QStringList>
 #include <QVBoxLayout>
-#include <QTimeEdit>
 #include <QHBoxLayout>
+#include <QSqlQuery>
 
 EditWindow::EditWindow(QWidget *parent) :
     QWidget(parent)
 {
-    QComboBox *dayBox = new QComboBox(this);
+    dayBox = new QComboBox(this);
     QStringList days;
     days<<"Monday"<<"Thuesday"<<"Wednesday"<<"Thursday"<<"Friday"<<"Saturday"<<"Sunday";
-    QLineEdit *subjEdit = new QLineEdit(this);
-    QLineEdit *typeEdit = new QLineEdit(this);
-    QLineEdit *profEdit = new QLineEdit(this);
-    QLineEdit *locEdit = new QLineEdit(this);
-    QTimeEdit *startTime = new QTimeEdit(this);
-    QTimeEdit *endTime = new QTimeEdit(this);
+    dayBox->addItems(days);
+    subjEdit = new QLineEdit(this);
+    typeEdit = new QLineEdit(this);
+    profEdit = new QLineEdit(this);
+    locEdit = new QLineEdit(this);
+    startTime = new QTimeEdit(this);
+    endTime = new QTimeEdit(this);
     QHBoxLayout *timeLayout = new QHBoxLayout;
     QHBoxLayout *dayLayout = new QHBoxLayout;
+    commitBtn = new QPushButton("Commit",this);
 
     setLayout(new QVBoxLayout(this));
     layout()->addWidget(new QLabel("Subject"));
@@ -44,5 +43,20 @@ EditWindow::EditWindow(QWidget *parent) :
     dayLayout->addWidget(dayBox);
     layout()->addItem(dayLayout);
 
-    dayBox->addItems(days);
+    layout()->addWidget(commitBtn);
+    connect(commitBtn,SIGNAL(clicked()),this,SLOT(on_commitBtn_clicked()));
+}
+
+void EditWindow::on_commitBtn_clicked()
+{
+    QSqlQuery query;
+    query.exec("insert into weeks (subject, type, professor, location, \
+               start_h, start_m, end_h, end_m, weekday) values (\""
+               + subjEdit->text() + "\",\"" + typeEdit->text() + "\",\""
+               + profEdit->text() + "\",\"" + locEdit->text() + "\",\""
+               + QString::number(startTime->time().hour()) + "\",\""
+               + QString::number(startTime->time().minute()) + "\",\""
+               + QString::number(endTime->time().hour()) + "\",\""
+               + QString::number(endTime->time().minute()) + "\",\""
+               + QString::number(dayBox->currentIndex()) + "\")");
 }

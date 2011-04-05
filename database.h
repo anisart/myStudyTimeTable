@@ -3,7 +3,6 @@
 
 #include <QSqlDatabase>
 #include <QDir>
-//#include <QSqlTableModel>
 #include <QSqlQuery>
 
 QSqlDatabase db;

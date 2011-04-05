@@ -12,7 +12,7 @@ MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent)
 {
     QWidget *inScroll = new QWidget(this);
-    QVBoxLayout *vbl = new QVBoxLayout(this);
+    QVBoxLayout *vbl = new QVBoxLayout;
     QScrollArea *scroll = new QScrollArea(this);
     //////////////////////////////////////////
     addBtn = new QPushButton("Add Item",this);
