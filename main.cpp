@@ -1,5 +1,5 @@
 #include <QApplication>
-#include <mainwidget.h>
+#include <optionmenu.h>
 //#include <QFile>
 
 int main(int c, char **v)
@@ -9,9 +9,10 @@ int main(int c, char **v)
 //    qss.open(QFile::ReadOnly);
 //    app.setStyleSheet(qss.readAll());
 //    qss.close();
-    MainWidget *mWidget = new MainWidget;
+   OptionsMenu menu;
 
-    mWidget->showMaximized();
+    menu.showMaximized();
+
 
     return app.exec();
 }
