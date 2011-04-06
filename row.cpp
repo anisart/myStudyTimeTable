@@ -3,6 +3,7 @@
 #include <QLabel>
 #include <QVariant>
 #include <QTime>
+#include <QDebug>
 
 Row::Row(QSqlQuery query, QWidget *parent) :
     QWidget(parent)
@@ -30,4 +31,14 @@ Row::Row(QSqlQuery query, QWidget *parent) :
 
     setLayout(gl);
 
+}
+
+void Row::mousePressEvent(QMouseEvent *e)
+{
+    qDebug()<<"press";
+}
+
+void Row::mouseReleaseEvent(QMouseEvent *e)
+{
+    qDebug()<<"release";
 }

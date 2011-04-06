@@ -11,4 +11,3 @@ HEADERS += \
     row.h \
     database.h \
     editwindow.h
-

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QSqlQuery>
+#include <QMouseEvent>
 
 class Row : public QWidget
 {
@@ -14,6 +15,10 @@ public:
 signals:
 
 public slots:
+
+protected:
+    void mousePressEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent *e);
 
 };
 
