@@ -51,12 +51,12 @@ void EditWindow::on_commitBtn_clicked()
 {
     QSqlQuery query;
     query.exec("insert into weeks (subject, type, professor, location, \
-               start_h, start_m, end_h, end_m, weekday) values (\""
-               + subjEdit->text() + "\",\"" + typeEdit->text() + "\",\""
-               + profEdit->text() + "\",\"" + locEdit->text() + "\",\""
-               + QString::number(startTime->time().hour()) + "\",\""
-               + QString::number(startTime->time().minute()) + "\",\""
-               + QString::number(endTime->time().hour()) + "\",\""
-               + QString::number(endTime->time().minute()) + "\",\""
-               + QString::number(dayBox->currentIndex()) + "\")");
+               start_h, start_m, end_h, end_m, weekday) values ('"
+               + subjEdit->text() + "','" + typeEdit->text() + "','"
+               + profEdit->text() + "','" + locEdit->text() + "','"
+               + QString::number(startTime->time().hour()) + "','"
+               + QString::number(startTime->time().minute()) + "','"
+               + QString::number(endTime->time().hour()) + "','"
+               + QString::number(endTime->time().minute()) + "','"
+               + QString::number(dayBox->currentIndex()) + "')");
 }
