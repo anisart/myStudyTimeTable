@@ -2,18 +2,15 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <row.h>
-#include <QScrollArea>
 #include "database.h"
 #include <QDebug>
 #include <QVariant>
 #include <QString>
 
 MainWidget::MainWidget(QWidget *parent) :
-    QWidget(parent)
+    QScrollArea(parent)
 {
     QWidget *inScroll = new QWidget(this);
-    QVBoxLayout *vbl = new QVBoxLayout;
-    QScrollArea *scroll = new QScrollArea(this);
     //////////////////////////////////////////
     addBtn = new QPushButton("Add Item",this);
     //////////////////////////////////////////
@@ -64,15 +61,13 @@ MainWidget::MainWidget(QWidget *parent) :
     while (query.next())
         inScroll->layout()->addWidget(new Row(query,this));
 
-    scroll->setWidgetResizable(true);
-    //scroll->setBackgroundRole(QPalette::Dark);
-    scroll->setWidget(inScroll);
-    vbl->addWidget(scroll);
+    setWidgetResizable(true);
+    //setBackgroundRole(QPalette::Dark);
+    setWidget(inScroll);
     ////////////////////////////////////
-    vbl->addWidget(addBtn);
+    inScroll->layout()->addWidget(addBtn);
     ////////////////////////////////////
-    vbl->setContentsMargins(0,0,0,0);
-    setLayout(vbl);
+    setContentsMargins(0,0,0,0);
 
     ////////////////////////////////////////
     connect(addBtn,SIGNAL(clicked()),this,SLOT(on_addBtn_clicked()));

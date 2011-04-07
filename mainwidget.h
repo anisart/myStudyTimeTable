@@ -2,12 +2,13 @@
 #define MAINWIDGET_H
 
 #include <QWidget>
+#include <QScrollArea>
 ///////////////////////////////////
 #include <QPushButton>
 #include <editwindow.h>
 ///////////////////////////////////
 
-class MainWidget : public QWidget
+class MainWidget : public QScrollArea
 {
     Q_OBJECT
     ////////////////////////////
