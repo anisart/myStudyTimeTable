@@ -10,21 +10,39 @@
 MainWidget::MainWidget(QWidget *parent) :
     QScrollArea(parent)
 {
-    QWidget *inScroll = new QWidget(this);
+    inScroll = new QWidget(this);
     //////////////////////////////////////////
     addBtn = new QPushButton("Add Item",this);
     //////////////////////////////////////////
 
     openDB();
     initDB();
-    QSqlQuery query;
-    QString queryString("select start_h, start_m, end_h, end_m, \
-                        subject, professor, type, location \
-                        from weeks where weekday = ");
-    QString querySortStr(" order by start_h, start_m");
 
     inScroll->setLayout(new QVBoxLayout);
     //inScroll->layout()->setContentsMargins(0,0,0,0);
+
+    createTable();
+
+    setWidgetResizable(true);
+    //setBackgroundRole(QPalette::Dark);
+    setWidget(inScroll);
+    ////////////////////////////////////
+    inScroll->layout()->addWidget(addBtn);
+    ////////////////////////////////////
+    setContentsMargins(0,0,0,0);
+
+    ////////////////////////////////////////
+    connect(addBtn,SIGNAL(clicked()),this,SLOT(on_addBtn_clicked()));
+    ///////////////////////////////////////////
+}
+
+void MainWidget::createTable()
+{
+    QSqlQuery query;
+    QString queryString("select start_h, start_m, end_h, end_m, \
+                        subject, professor, type, location, _id \
+                        from weeks where weekday = ");
+    QString querySortStr(" order by start_h, start_m");;
 
     inScroll->layout()->addWidget(new QLabel("Monday"));
     query.exec(queryString + "0" + querySortStr);
@@ -60,18 +78,6 @@ MainWidget::MainWidget(QWidget *parent) :
     query.exec(queryString + "6" + querySortStr);
     while (query.next())
         inScroll->layout()->addWidget(new Row(query,this));
-
-    setWidgetResizable(true);
-    //setBackgroundRole(QPalette::Dark);
-    setWidget(inScroll);
-    ////////////////////////////////////
-    inScroll->layout()->addWidget(addBtn);
-    ////////////////////////////////////
-    setContentsMargins(0,0,0,0);
-
-    ////////////////////////////////////////
-    connect(addBtn,SIGNAL(clicked()),this,SLOT(on_addBtn_clicked()));
-    ///////////////////////////////////////////
 }
 
 void MainWidget::on_addBtn_clicked()

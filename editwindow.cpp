@@ -20,7 +20,9 @@ EditWindow::EditWindow(QWidget *parent) :
     endTime = new QTimeEdit(this);
     QHBoxLayout *timeLayout = new QHBoxLayout;
     QHBoxLayout *dayLayout = new QHBoxLayout;
+    QHBoxLayout *btnLayout = new QHBoxLayout;
     commitBtn = new QPushButton("Commit",this);
+    backBtn = new QPushButton("Back",this);
 
     setLayout(new QVBoxLayout(this));
     layout()->addWidget(new QLabel("Subject"));
@@ -43,8 +45,12 @@ EditWindow::EditWindow(QWidget *parent) :
     dayLayout->addWidget(dayBox);
     layout()->addItem(dayLayout);
 
-    layout()->addWidget(commitBtn);
+    btnLayout->addWidget(commitBtn);
+    btnLayout->addWidget(backBtn);
+    layout()->addItem(btnLayout);
+
     connect(commitBtn,SIGNAL(clicked()),this,SLOT(on_commitBtn_clicked()));
+    connect(backBtn,SIGNAL(clicked()),this,SLOT(on_backBtn_clicked()));
 }
 
 void EditWindow::on_commitBtn_clicked()
@@ -59,4 +65,9 @@ void EditWindow::on_commitBtn_clicked()
                + QString::number(endTime->time().hour()) + "','"
                + QString::number(endTime->time().minute()) + "','"
                + QString::number(dayBox->currentIndex()) + "')");
+}
+
+void EditWindow::on_backBtn_clicked()
+{
+    close();
 }

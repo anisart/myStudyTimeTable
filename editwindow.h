@@ -10,7 +10,7 @@
 class EditWindow : public QWidget
 {
     Q_OBJECT
-    QPushButton *commitBtn;
+    QPushButton *commitBtn, *backBtn;
     QLineEdit *subjEdit, *typeEdit, *profEdit, *locEdit;
     QTimeEdit *startTime, *endTime;
     QComboBox *dayBox;
@@ -22,6 +22,7 @@ signals:
 
 public slots:
     void on_commitBtn_clicked();
+    void on_backBtn_clicked();
 };
 
 #endif // EDITWINDOW_H

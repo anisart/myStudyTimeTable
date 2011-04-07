@@ -14,10 +14,12 @@ class MainWidget : public QScrollArea
     ////////////////////////////
     QPushButton *addBtn;
     EditWindow editWin;
+    QWidget *inScroll;
     ////////////////////////////
 
 public:
     explicit MainWidget(QWidget *parent = 0);
+    void createTable();
 
 signals:
 
