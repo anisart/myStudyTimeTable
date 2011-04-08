@@ -1,4 +1,4 @@
-#include "row.h"
+#include <row.h>
 #include <QGridLayout>
 #include <QLabel>
 #include <QVariant>

@@ -1,10 +1,8 @@
 #ifndef DATABASE_H
 #define DATABASE_H
-
-#include <QSqlDatabase>
 #include <QDir>
+#include <QSqlDatabase>
 #include <QSqlQuery>
-
 QSqlDatabase db;
 
 bool openDB()
@@ -51,5 +49,4 @@ bool deleteDB()
     return QFile::remove("STT.db");
     #endif
  }
-
 #endif // DATABASE_H

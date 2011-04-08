@@ -1,18 +1,11 @@
 #include <QApplication>
-#include <optionmenu.h>
-//#include <QFile>
+#include "mainwindow.h"
 
-int main(int c, char **v)
+int main(int my_argc, char **my_argv)
 {
-    QApplication app(c,v);
-//    QFile qss(":/style.qss");
-//    qss.open(QFile::ReadOnly);
-//    app.setStyleSheet(qss.readAll());
-//    qss.close();
-   OptionsMenu menu;
-
-    menu.showMaximized();
-
-
-    return app.exec();
+    QApplication my_app(my_argc,my_argv);
+    MainWindow my_window;
+    my_window.showMaximized();
+    return my_app.exec();
 }
+
