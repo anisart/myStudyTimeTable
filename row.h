@@ -5,18 +5,22 @@
 #include <QSqlQuery>
 #include <QMouseEvent>
 #include <QPushButton>
+#include <QTime>
 
 class Row : public QStackedWidget
 {
     Q_OBJECT
-    int id;
+
     QSqlQuery query;
     QPushButton *backBtn, *editBtn, *deleteBtn;
 
     void deleteRow();
 
 public:
-    explicit Row(QSqlQuery dataQuery, QWidget *parent = 0);
+    explicit Row(QSqlQuery dataQuery, int wday, QWidget *parent = 0);
+    QString subj, prof, type, loc;
+    QTime stime, etime;
+    int weekday, _id;
 
 signals:
 

@@ -5,7 +5,7 @@
 #include <QScrollArea>
 ///////////////////////////////////
 #include <QPushButton>
-#include <editwindow.h>
+#include "editwindow.h"
 ///////////////////////////////////
 
 class MainWidget : public QScrollArea

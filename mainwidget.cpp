@@ -47,37 +47,37 @@ void MainWidget::createTable()
     inScroll->layout()->addWidget(new QLabel("Monday"));
     query.exec(queryString + "0" + querySortStr);
     while (query.next())
-        inScroll->layout()->addWidget(new Row(query,this));
+        inScroll->layout()->addWidget(new Row(query,0,this));
 
     inScroll->layout()->addWidget(new QLabel("Thuesday"));
     query.exec(queryString + "1" + querySortStr);
     while (query.next())
-        inScroll->layout()->addWidget(new Row(query,this));
+        inScroll->layout()->addWidget(new Row(query,1,this));
 
     inScroll->layout()->addWidget(new QLabel("Wednesday"));
     query.exec(queryString + "2" + querySortStr);
     while (query.next())
-        inScroll->layout()->addWidget(new Row(query,this));
+        inScroll->layout()->addWidget(new Row(query,2,this));
 
     inScroll->layout()->addWidget(new QLabel("Thursday"));
     query.exec(queryString + "3" + querySortStr);
     while (query.next())
-        inScroll->layout()->addWidget(new Row(query,this));
+        inScroll->layout()->addWidget(new Row(query,3,this));
 
     inScroll->layout()->addWidget(new QLabel("Friday"));
     query.exec(queryString + "4" + querySortStr);
     while (query.next())
-        inScroll->layout()->addWidget(new Row(query,this));
+        inScroll->layout()->addWidget(new Row(query,4,this));
 
     inScroll->layout()->addWidget(new QLabel("Saturday"));
     query.exec(queryString + "5" + querySortStr);
     while (query.next())
-        inScroll->layout()->addWidget(new Row(query,this));
+        inScroll->layout()->addWidget(new Row(query,5,this));
 
     inScroll->layout()->addWidget(new QLabel("Sunday"));
     query.exec(queryString + "6" + querySortStr);
     while (query.next())
-        inScroll->layout()->addWidget(new Row(query,this));
+        inScroll->layout()->addWidget(new Row(query,6,this));
 }
 
 void MainWidget::on_addBtn_clicked()
