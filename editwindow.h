@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QComboBox>
 #include <QTimeEdit>
+#include "row.h"
 
 class EditWindow : public QWidget
 {
@@ -14,14 +15,16 @@ class EditWindow : public QWidget
     QLineEdit *subjEdit, *typeEdit, *profEdit, *locEdit;
     QTimeEdit *startTime, *endTime;
     QComboBox *dayBox;
+    int _id;
 
 public:
-    explicit EditWindow(QWidget *parent = 0);
+    explicit EditWindow(QString mode = "new", Row *row = 0, QWidget *parent = 0);
 
 signals:
 
 public slots:
-    void on_commitBtn_clicked();
+    void on_commitBtnN_clicked();
+    void on_commitBtnE_clicked();
     void on_backBtn_clicked();
 };
 

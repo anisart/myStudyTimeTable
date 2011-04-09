@@ -2,8 +2,8 @@
 #define OPTIONMENU_H
 
 
-#include<editwindow.h>
-#include <QtGui/QMainWindow>
+#include "editwindow.h"
+#include <QMainWindow>
 #include <QPushButton>
 class OptionsMenu : public QMainWindow
 {

@@ -2,12 +2,12 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QVariant>
-#include <QTime>
+#include "editwindow.h"
 
 #include <QDebug>
 #include <QSqlError>
 
-Row::Row(QSqlQuery dataQuery, QWidget *parent) :
+Row::Row(QSqlQuery dataQuery, int wday, QWidget *parent) :
     QStackedWidget(parent)
 {
     backBtn = new QPushButton("Back",this);
@@ -19,23 +19,31 @@ Row::Row(QSqlQuery dataQuery, QWidget *parent) :
     QGridLayout *gl = new QGridLayout();
     QHBoxLayout *vbl = new QHBoxLayout();
 
-    QLabel *stime = new QLabel(QTime(dataQuery.value(0).toInt(),dataQuery.value(1).toInt()).toString("h:mm"));
-    QLabel *etime = new QLabel("~"+QTime(dataQuery.value(2).toInt(),dataQuery.value(3).toInt()).toString("h:mm"));
-    QLabel *subj = new QLabel(dataQuery.value(4).toString());
-    QLabel *prof = new QLabel(dataQuery.value(5).toString());
-    QLabel *type = new QLabel(dataQuery.value(6).toString());
-    QLabel *loc = new QLabel(dataQuery.value(7).toString());
-    id = dataQuery.value(8).toInt();
+    stime = QTime(dataQuery.value(0).toInt(),dataQuery.value(1).toInt());
+    etime = QTime(dataQuery.value(2).toInt(),dataQuery.value(3).toInt());
+    subj = dataQuery.value(4).toString();
+    prof = dataQuery.value(5).toString();
+    type = dataQuery.value(6).toString();
+    loc = dataQuery.value(7).toString();
+    _id = dataQuery.value(8).toInt();
+    weekday = wday;
 
-    type->setFixedWidth(70);
-    loc->setFixedWidth(70);
+    QLabel *stimeLab = new QLabel(stime.toString("h:mm"));
+    QLabel *etimeLab = new QLabel("~" + etime.toString("h:mm"));
+    QLabel *subjLab = new QLabel(subj);
+    QLabel *profLab = new QLabel(prof);
+    QLabel *typeLab = new QLabel(type);
+    QLabel *locLab = new QLabel(loc);
 
-    gl->addWidget(stime,0,0);
-    gl->addWidget(etime,1,0);
-    gl->addWidget(subj,0,1);
-    gl->addWidget(prof,1,1);
-    gl->addWidget(type,0,2);
-    gl->addWidget(loc,1,2);
+    typeLab->setFixedWidth(70);
+    locLab->setFixedWidth(70);
+
+    gl->addWidget(stimeLab,0,0);
+    gl->addWidget(etimeLab,1,0);
+    gl->addWidget(subjLab,0,1);
+    gl->addWidget(profLab,1,1);
+    gl->addWidget(typeLab,0,2);
+    gl->addWidget(locLab,1,2);
 
     gl->setColumnStretch(1,1);
 
@@ -56,18 +64,18 @@ Row::Row(QSqlQuery dataQuery, QWidget *parent) :
 
 void Row::mousePressEvent(QMouseEvent *e)
 {
-    qDebug()<<"press id = "<<id;
+    qDebug()<<"press id = "<<_id;
 }
 
 void Row::mouseReleaseEvent(QMouseEvent *e)
 {
-    qDebug()<<"release id = "<<id;
+    qDebug()<<"release id = "<<_id;
     setCurrentIndex(1);
 }
 
 void Row::deleteRow()
 {
-    query.exec("delete from weeks where _id = " + QString::number(id));
+    query.exec("delete from weeks where _id = " + QString::number(_id));
     qDebug()<<query.lastError();
 }
 
@@ -78,11 +86,14 @@ void Row::on_backBtn_clicked()
 
 void Row::on_editBtn_clicked()
 {
-
+//    EditWindow editWin("edit",this);
+    EditWindow *editWin = new EditWindow("edit",this);
+    editWin->showMaximized();
+    setCurrentIndex(0);
 }
 
 void Row::on_deleteBtn_clicked()
 {
     deleteRow();
-    hide();
+    close();
 }
