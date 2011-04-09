@@ -78,12 +78,12 @@ void EditWindow::on_commitBtnN_clicked()
     query.exec("insert into weeks (subject, type, professor, location, \
                start_h, start_m, end_h, end_m, weekday) values ('"
                + subjEdit->text() + "','" + typeEdit->text() + "','"
-               + profEdit->text() + "','" + locEdit->text() + "','"
-               + QString::number(startTime->time().hour()) + "','"
-               + QString::number(startTime->time().minute()) + "','"
-               + QString::number(endTime->time().hour()) + "','"
-               + QString::number(endTime->time().minute()) + "','"
-               + QString::number(dayBox->currentIndex()) + "')");
+               + profEdit->text() + "','" + locEdit->text() + "',"
+               + QString::number(startTime->time().hour()) + ","
+               + QString::number(startTime->time().minute()) + ","
+               + QString::number(endTime->time().hour()) + ","
+               + QString::number(endTime->time().minute()) + ","
+               + QString::number(dayBox->currentIndex()) + ")");
     qDebug()<<query.lastError();
     close();
 }
@@ -96,12 +96,12 @@ void EditWindow::on_commitBtnE_clicked()
                + "',type='" + typeEdit->text()
                + "',professor='" + profEdit->text()
                + "',location='" + locEdit->text()
-               + "',start_h='" + QString::number(startTime->time().hour())
-               + "',start_m='" + QString::number(startTime->time().minute())
-               + "',end_h='" + QString::number(endTime->time().hour())
-               + "',end_m='" + QString::number(endTime->time().minute())
-               + "',weekday='" + QString::number(dayBox->currentIndex())
-               + "' where _id=" + QString::number(_id));
+               + "',start_h=" + QString::number(startTime->time().hour())
+               + ",start_m=" + QString::number(startTime->time().minute())
+               + ",end_h=" + QString::number(endTime->time().hour())
+               + ",end_m=" + QString::number(endTime->time().minute())
+               + ",weekday=" + QString::number(dayBox->currentIndex())
+               + " where _id=" + QString::number(_id));
     qDebug()<<query.lastError();
     close();
 }
