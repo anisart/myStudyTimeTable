@@ -81,6 +81,7 @@ void Row::deleteRow()
 
 void Row::on_backBtn_clicked()
 {
+
     setCurrentIndex(0);
 }
 

@@ -7,7 +7,6 @@
 
 #include <QDebug>
 #include <QSqlError>
-#include "subjwindow.h"
 
 EditWindow::EditWindow(QString mode, Row *row, QWidget *parent) :
     QWidget(parent)
@@ -106,6 +105,7 @@ void EditWindow::on_commitBtnN_clicked()
 {
     QSqlQuery query;
     query.exec("select id from subjects where subject = '" + subjBox->currentText() + "'");
+    query.next();
     int subj_id = query.value(0).toInt();
 
     query.exec("insert into weeks (subject_id, location, "
