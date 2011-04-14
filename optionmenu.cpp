@@ -4,12 +4,22 @@
 #include <QAction>
 #include <QMenuBar>
 #include "mainwidget.h"
+
+#include <QTabWidget>
+
 OptionsMenu::OptionsMenu(QWidget *parent) :
     QMainWindow(parent)
 {
+    QTabWidget *tabWidget = new QTabWidget;
+
+    tabWidget->addTab(new QWidget,"Upper");
+
     MainWidget *m = new MainWidget;
-    setCentralWidget(m);
-    m->showMaximized();
+    tabWidget->addTab(m,"Lower");
+
+    setCentralWidget(tabWidget);
+
+    tabWidget->showMaximized();
 //     setCentralWidget(m);
         //create menu
         createMyMenu();

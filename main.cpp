@@ -1,6 +1,7 @@
 #include <QApplication>
 #include "optionmenu.h"
 //#include <QFile>
+#include "database.h"
 
 int main(int c, char **v)
 {
@@ -9,6 +10,10 @@ int main(int c, char **v)
 //    qss.open(QFile::ReadOnly);
 //    app.setStyleSheet(qss.readAll());
 //    qss.close();
+
+    openDB();
+    initDB();
+
    OptionsMenu menu;
 
     menu.showMaximized();

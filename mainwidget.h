@@ -5,7 +5,6 @@
 #include <QScrollArea>
 ///////////////////////////////////
 #include <QPushButton>
-#include "editwindow.h"
 ///////////////////////////////////
 
 class MainWidget : public QScrollArea
@@ -13,7 +12,6 @@ class MainWidget : public QScrollArea
     Q_OBJECT
     ////////////////////////////
     QPushButton *addBtn;
-    EditWindow editWin;
     QWidget *inScroll;
     ////////////////////////////
 

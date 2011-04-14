@@ -2,10 +2,11 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <row.h>
-#include "database.h"
 #include <QDebug>
 #include <QVariant>
 #include <QString>
+#include <QSqlError>
+#include "editwindow.h"
 
 MainWidget::MainWidget(QWidget *parent) :
     QScrollArea(parent)
@@ -15,8 +16,7 @@ MainWidget::MainWidget(QWidget *parent) :
     addBtn = new QPushButton("Add Item",this);
     //////////////////////////////////////////
 
-    openDB();
-    initDB();
+
 
     inScroll->setLayout(new QVBoxLayout);
     //inScroll->layout()->setContentsMargins(0,0,0,0);
@@ -39,48 +39,50 @@ MainWidget::MainWidget(QWidget *parent) :
 void MainWidget::createTable()
 {
     QSqlQuery query;
-    QString queryString("select start_h, start_m, end_h, end_m, \
-                        subject, professor, type, location, _id \
-                        from weeks where weekday = ");
-    QString querySortStr(" order by start_h, start_m");;
+    QString queryStr1("select W.start_h, W.start_m, W.end_h, W.end_m, "
+                      "S.subject, S.professor, S.type, W.location, W.id "
+                      "from weeks W, subjects S where (weekday = ");
+    QString queryStr2(") AND (W.subject_id = S.id)"
+                      "order by W.start_h, W.start_m");
 
     inScroll->layout()->addWidget(new QLabel("Monday"));
-    query.exec(queryString + "0" + querySortStr);
+    query.exec(queryStr1 + "0" + queryStr2);
     while (query.next())
         inScroll->layout()->addWidget(new Row(query,0,this));
 
     inScroll->layout()->addWidget(new QLabel("Thuesday"));
-    query.exec(queryString + "1" + querySortStr);
+    query.exec(queryStr1 + "1" + queryStr2);
     while (query.next())
         inScroll->layout()->addWidget(new Row(query,1,this));
 
     inScroll->layout()->addWidget(new QLabel("Wednesday"));
-    query.exec(queryString + "2" + querySortStr);
+    query.exec(queryStr1 + "2" + queryStr2);
     while (query.next())
         inScroll->layout()->addWidget(new Row(query,2,this));
 
     inScroll->layout()->addWidget(new QLabel("Thursday"));
-    query.exec(queryString + "3" + querySortStr);
+    query.exec(queryStr1 + "3" + queryStr2);
     while (query.next())
         inScroll->layout()->addWidget(new Row(query,3,this));
 
     inScroll->layout()->addWidget(new QLabel("Friday"));
-    query.exec(queryString + "4" + querySortStr);
+    query.exec(queryStr1 + "4" + queryStr2);
     while (query.next())
         inScroll->layout()->addWidget(new Row(query,4,this));
 
     inScroll->layout()->addWidget(new QLabel("Saturday"));
-    query.exec(queryString + "5" + querySortStr);
+    query.exec(queryStr1 + "5" + queryStr2);
     while (query.next())
         inScroll->layout()->addWidget(new Row(query,5,this));
 
     inScroll->layout()->addWidget(new QLabel("Sunday"));
-    query.exec(queryString + "6" + querySortStr);
+    query.exec(queryStr1 + "6" + queryStr2);
     while (query.next())
         inScroll->layout()->addWidget(new Row(query,6,this));
 }
 
 void MainWidget::on_addBtn_clicked()
-{
-    editWin.showMaximized();
+{    
+    EditWindow *editWin = new EditWindow;
+    editWin->showMaximized();
 }

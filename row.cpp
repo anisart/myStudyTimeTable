@@ -75,7 +75,7 @@ void Row::mouseReleaseEvent(QMouseEvent *e)
 
 void Row::deleteRow()
 {
-    query.exec("delete from weeks where _id = " + QString::number(_id));
+    query.exec("delete from weeks where id = " + QString::number(_id));
     qDebug()<<query.lastError();
 }
 
