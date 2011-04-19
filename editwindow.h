@@ -28,7 +28,6 @@ public slots:
     void on_commitBtnN_clicked();
     void on_commitBtnE_clicked();
     void on_backBtn_clicked();
-    void new_subject_added(QString);
 };
 
 #endif // EDITWINDOW_H

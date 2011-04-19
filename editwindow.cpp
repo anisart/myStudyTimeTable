@@ -49,7 +49,8 @@ EditWindow::EditWindow(QString mode, Row *row, QWidget *parent) :
     vbl->addWidget(new QLabel("Subject"));
     vbl->addWidget(subjBox);
     vbl->addWidget(insl);
-    insl->hide();
+    if (subjBox->count()!=1)
+        insl->hide();
     vbl->addWidget(new QLabel("Location"));
     vbl->addWidget(locEdit);
     vbl->addWidget(new QLabel("Time"));
@@ -104,9 +105,22 @@ void EditWindow::on_subjBox_changed(QString item)
 void EditWindow::on_commitBtnN_clicked()
 {
     QSqlQuery query;
-    query.exec("select id from subjects where subject = '" + subjBox->currentText() + "'");
-    query.next();
-    int subj_id = query.value(0).toInt();
+    int subj_id;
+    if (subjBox->currentText() != "Add new")
+    {
+        query.exec("select id from subjects where subject = '" + subjBox->currentText() + "'");
+        query.next();
+        subj_id = query.value(0).toInt();
+    }
+    else
+    {
+        query.exec("insert into subjects (subject, type, professor)"
+                   "values ('" + subjEdit->text() + "','"
+                   + typeEdit->text() + "','" + profEdit->text() + "')");
+        query.exec("select id from subjects");
+        query.last();
+        subj_id = query.value(0).toInt();
+    }
 
     query.exec("insert into weeks (subject_id, location, "
                "start_h, start_m, end_h, end_m, weekday) values ("
@@ -144,9 +158,3 @@ void EditWindow::on_backBtn_clicked()
     close();
 }
 
-void EditWindow::new_subject_added(QString subject)
-{
-    subjBox->removeItem(subjBox->currentIndex());
-    subjBox->addItem(subject);
-    subjBox->addItem("Add new");
-}
