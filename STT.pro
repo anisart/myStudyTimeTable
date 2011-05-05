@@ -5,11 +5,11 @@ SOURCES += \
     row.cpp \
     timetable.cpp \
     mainwindow.cpp \
-    editttable.cpp
+    editwindow.cpp
 
 HEADERS += \
     database.h \
     row.h \
     timetable.h \
     mainwindow.h \
-    editttable.h
+    editwindow.h

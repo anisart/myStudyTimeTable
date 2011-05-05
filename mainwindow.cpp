@@ -1,6 +1,4 @@
 #include "mainwindow.h"
-#include "timetable.h"
-#include "editttable.h"
 #include <QMessageBox>
 #include <QAction>
 #include <QMenuBar>
@@ -8,17 +6,17 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    TimeTable *my_TT=new TimeTable();
+    my_TT=new TimeTable();
     setCentralWidget(my_TT);
     createMyMenu();
 }
 void MainWindow::createMyMenu()
 {
         //add menu item help to menu
-        menu_editTTAction = new QAction(tr("Edit time table"), this);
+        menu_editTTAction = new QAction(tr("Add item"), this);
         menuBar()->addAction(menu_editTTAction);
         connect(menu_editTTAction, SIGNAL(triggered()), this, SLOT(editTTAction()));
-
+        connect(menu_editTTAction, SIGNAL(triggered()), this, SLOT(close()));
         //add menu item help to Version
         menu_versionAction = new QAction(tr("Version"), this);
         menuBar()->addAction(menu_versionAction);
@@ -28,13 +26,16 @@ void MainWindow::createMyMenu()
         menu_exitAction = new QAction(tr("Exit"), this);
         menuBar()->addAction(menu_exitAction);
         connect(menu_exitAction, SIGNAL(triggered()), this, SLOT(close()));
-}
+ }
 
 //Handle action for help menu.
 void MainWindow::editTTAction()
 {
- editTTable my_eTT;
- my_eTT.showMaximized();
+
+
+    edit= new EditWindow();
+    edit->showFullScreen();
+
 }
 
 //Handle action for help Version.

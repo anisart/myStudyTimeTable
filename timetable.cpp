@@ -1,73 +1,71 @@
 #include "timetable.h"
 #include "row.h"
-#include "database.h"
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QScrollArea>
 #include <QDebug>
 #include <QVariant>
 #include <QString>
+#include <QAction>
+#include <QMenuBar>
 
 
 TimeTable::TimeTable(QWidget *parent) :
-    QWidget(parent)
+    QScrollArea(parent)
 {
-    QWidget *inScroll = new QWidget(this);
-    QVBoxLayout *vbl = new QVBoxLayout;
-    QScrollArea *scroll = new QScrollArea(this);
+    inScroll = new QWidget(this);
 
-
-    openDB();
-    initDB();
-    QSqlQuery query;
-    QString queryString("select start_h, start_m, end_h, end_m, \
-                        subject, professor, type, location \
-                        from weeks where weekday = ");
 
     inScroll->setLayout(new QVBoxLayout);
-    //inScroll->layout()->setContentsMargins(0,0,0,0);
+
+    createTable();
+
+    setWidgetResizable(true);
+    //setBackgroundRole(QPalette::Dark);
+    setWidget(inScroll);
+    setContentsMargins(0,0,0,0);
+}
+void TimeTable::createTable()
+{
+    QSqlQuery query;
+    QString queryStr1("select W.start_h, W.start_m, W.end_h, W.end_m, "
+                      "S.subject, S.professor, S.type, W.location, W.id "
+                      "from weeks W, subjects S where (weekday = ");
+    QString queryStr2(") AND (W.subject_id = S.id)"
+                      "order by W.start_h, W.start_m");
 
     inScroll->layout()->addWidget(new QLabel("Monday"));
-    query.exec(queryString + "0");
+    query.exec(queryStr1 + "0" + queryStr2);
     while (query.next())
-        inScroll->layout()->addWidget(new Row(query,this));
+        inScroll->layout()->addWidget(new Row(query,0,this));
 
     inScroll->layout()->addWidget(new QLabel("Thuesday"));
-    query.exec(queryString + "1");
+    query.exec(queryStr1 + "1" + queryStr2);
     while (query.next())
-        inScroll->layout()->addWidget(new Row(query,this));
+        inScroll->layout()->addWidget(new Row(query,1,this));
 
     inScroll->layout()->addWidget(new QLabel("Wednesday"));
-    query.exec(queryString + "2");
+    query.exec(queryStr1 + "2" + queryStr2);
     while (query.next())
-        inScroll->layout()->addWidget(new Row(query,this));
+        inScroll->layout()->addWidget(new Row(query,2,this));
 
     inScroll->layout()->addWidget(new QLabel("Thursday"));
-    query.exec(queryString + "3");
+    query.exec(queryStr1 + "3" + queryStr2);
     while (query.next())
-        inScroll->layout()->addWidget(new Row(query,this));
+        inScroll->layout()->addWidget(new Row(query,3,this));
 
     inScroll->layout()->addWidget(new QLabel("Friday"));
-    query.exec(queryString + "4");
+    query.exec(queryStr1 + "4" + queryStr2);
     while (query.next())
-        inScroll->layout()->addWidget(new Row(query,this));
+        inScroll->layout()->addWidget(new Row(query,4,this));
 
     inScroll->layout()->addWidget(new QLabel("Saturday"));
-    query.exec(queryString + "5");
+    query.exec(queryStr1 + "5" + queryStr2);
     while (query.next())
-        inScroll->layout()->addWidget(new Row(query,this));
+        inScroll->layout()->addWidget(new Row(query,5,this));
 
     inScroll->layout()->addWidget(new QLabel("Sunday"));
-    query.exec(queryString + "6");
+    query.exec(queryStr1 + "6" + queryStr2);
     while (query.next())
-        inScroll->layout()->addWidget(new Row(query,this));
-
-    scroll->setWidgetResizable(true);
-
-
-    scroll->setWidget(inScroll);
-    vbl->addWidget(scroll);
-
-    vbl->setContentsMargins(0,0,0,0);
-    setLayout(vbl);
+        inScroll->layout()->addWidget(new Row(query,6,this));
 }

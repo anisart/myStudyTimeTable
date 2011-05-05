@@ -2,13 +2,15 @@
 #define TIMETABLE_H
 
 #include <QWidget>
+#include <QScrollArea>
 
-class TimeTable : public QWidget
+class TimeTable : public QScrollArea
 {
     Q_OBJECT
+    QWidget *inScroll;
 public:
     explicit TimeTable(QWidget *parent = 0);
-
+    void createTable();
 signals:
 
 public slots:

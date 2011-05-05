@@ -2,10 +2,15 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include "editwindow.h"
+#include "timetable.h"
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+   TimeTable *my_TT;
+   EditWindow *edit;
+
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     void createMyMenu();
