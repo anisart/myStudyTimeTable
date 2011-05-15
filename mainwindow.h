@@ -17,11 +17,12 @@ public:
     ~MainWindow();
 
 public Q_SLOTS:
+    void photoAction();
     void editTTAction();
     void versionAction();
 
 private:
-
+        QAction* menu_photoAction;
         QAction* menu_editTTAction;
         QAction* menu_versionAction;
         QAction* menu_exitAction;

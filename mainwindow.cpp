@@ -2,6 +2,7 @@
 #include <QMessageBox>
 #include <QAction>
 #include <QMenuBar>
+#include "camera.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -12,23 +13,32 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 void MainWindow::createMyMenu()
 {
-        //add menu item help to menu
+        //add menu item
+        menu_photoAction = new QAction(tr("Add photo"), this);
+        menuBar()->addAction(menu_photoAction);
+        connect(menu_photoAction, SIGNAL(triggered()), this, SLOT(photoAction()));
+        //add menu item menu
         menu_editTTAction = new QAction(tr("Add item"), this);
         menuBar()->addAction(menu_editTTAction);
         connect(menu_editTTAction, SIGNAL(triggered()), this, SLOT(editTTAction()));
-        connect(menu_editTTAction, SIGNAL(triggered()), this, SLOT(close()));
-        //add menu item help to Version
+        //add menu item Version
         menu_versionAction = new QAction(tr("Version"), this);
         menuBar()->addAction(menu_versionAction);
         connect(menu_versionAction, SIGNAL(triggered()), this, SLOT(versionAction()));
 
-        //add menu item help to Exit
+        //add menu item Exit
         menu_exitAction = new QAction(tr("Exit"), this);
         menuBar()->addAction(menu_exitAction);
         connect(menu_exitAction, SIGNAL(triggered()), this, SLOT(close()));
  }
 
-//Handle action for help menu.
+void MainWindow::photoAction()
+{
+    MyCamera *myCamera = new MyCamera;
+    myCamera->showFullScreen();
+}
+
+//Handle action for menu.
 void MainWindow::editTTAction()
 {
 
@@ -38,7 +48,7 @@ void MainWindow::editTTAction()
 
 }
 
-//Handle action for help Version.
+//Handle action for Version.
 void MainWindow::versionAction()
 {
 
