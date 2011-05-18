@@ -47,7 +47,7 @@ Row::Row(QSqlQuery dataQuery, int wday, QWidget *parent) :
 
     gl->setColumnStretch(.1,.1);
     firstWidget->setLayout(gl);
-    setMaximumHeight(50);
+    setMaximumHeight(70);
     addWidget(firstWidget);
 
 
@@ -71,9 +71,6 @@ void Row::mouseReleaseEvent(QMouseEvent *e)
     QLabel *typeLab = new QLabel("Type: "+ type);
     QLabel *locLab = new QLabel("Location: "+loc);
     QDialog *info=new QDialog();
-
-    typeLab->setFixedWidth(70);
-    locLab->setFixedWidth(70);
 
 
     gl->addWidget(subjLab);
