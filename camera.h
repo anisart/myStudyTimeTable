@@ -62,8 +62,6 @@ public:
 
     void updateVideo();
 
-    void keyPressEvent(QKeyEvent *);
-
 
 public slots:
     void enableCamera();

@@ -42,6 +42,10 @@ void initDB()
                "type text, "
                "professor text, "
                "professor_full text)");
+    query.exec("create table files"
+               "(id integer primary key, "
+               "subject_id integer, "
+               "path text)");
 }
 
 bool deleteDB()

@@ -390,12 +390,3 @@ void MyCamera::paintEvent(QPaintEvent *event)
 
 }
 
-void MyCamera::keyPressEvent(QKeyEvent* event)
-{
-    switch (event->nativeVirtualKey())
-            {
-            case 63555: exit(0);
-            case 63557: searchAndLock();
-            default: break;
-            };
-}

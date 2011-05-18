@@ -5,7 +5,7 @@ CONFIG += mobility
 MOBILITY = multimedia \
     systeminfo
 
-QT += sql
+QT += sql testlib
 
 symbian: {
     TARGET = STT
