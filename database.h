@@ -4,6 +4,8 @@
 #include <QSqlDatabase>
 #include <QDir>
 #include <QSqlQuery>
+#include <QDebug>
+#include <QSqlError>
 
 QSqlDatabase db;
 
@@ -27,15 +29,26 @@ void initDB()
     QSqlQuery query;
     query.exec("create table weeks"
                "(id integer primary key, "
-               "subject text, "
+               "subject_id integer, "
                "location text, "
-               "type text, "
-               "professor text, "
                "start_h integer, "
                "start_m integer, "
                "end_h integer, "
                "end_m integer, "
-               "weekday integer)");
+               "weekday integer,"
+               "is_week_upper boolean)");
+    query.exec("create table subjects"
+               "(id integer primary key, "
+               "subject text, "
+               "subject_full text, "
+               "type text, "
+               "professor text, "
+               "professor_full text)");
+    query.exec("create table files"
+               "(id integer primary key, "
+               "subject_id integer, "
+               "path text)");
+    qDebug()<<query.lastError();
 }
 
 bool deleteDB()
@@ -51,5 +64,4 @@ bool deleteDB()
     return QFile::remove("STT.db");
     #endif
  }
-
-#endif // DATABASE_H
+#endif

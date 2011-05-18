@@ -2,14 +2,16 @@ QT += sql
 
 SOURCES += \
     main.cpp \
-    mainwidget.cpp \
     row.cpp \
+    timetable.cpp \
+    mainwindow.cpp \
     editwindow.cpp \
-    optionmenu.cpp
+    viewwindowlist.cpp
 
 HEADERS += \
-    mainwidget.h \
-    row.h \
     database.h \
+    row.h \
+    timetable.h \
+    mainwindow.h \
     editwindow.h \
-    optionmenu.h
+    viewwindowlist.h
