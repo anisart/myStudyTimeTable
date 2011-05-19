@@ -6,15 +6,10 @@
 #include <QSqlQuery>
 #include <QVBoxLayout>
 #include <QStringList>
-//#include <QApplication>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-//    QWidgetList allWidgets = QApplication::allWidgets();
-//    foreach(QWidget* widget, allWidgets)
-//           widget->setContextMenuPolicy(Qt::NoContextMenu);
-
     my_TT=new TimeTable();
     setCentralWidget(my_TT);
     createMyMenu();
