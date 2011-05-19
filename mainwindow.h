@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QListWidget>
+#include <QMessageBox>
 #include "editwindow.h"
 #include "timetable.h"
 class MainWindow : public QMainWindow

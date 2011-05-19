@@ -6,9 +6,10 @@
 #include <QPushButton>
 #include <QComboBox>
 #include <QTimeEdit>
+#include <QScrollArea>
 #include "row.h"
 
-class EditWindow : public QWidget
+class EditWindow : public QScrollArea
 {
     Q_OBJECT
     QPushButton *commitBtn, *backBtn;
@@ -16,6 +17,7 @@ class EditWindow : public QWidget
     QTimeEdit *startTime, *endTime;
     QComboBox *subjBox, *dayBox;
     QWidget *insl;
+    QWidget *inScroll;
     int _id;
 
 public:

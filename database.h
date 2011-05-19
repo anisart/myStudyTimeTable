@@ -4,8 +4,6 @@
 #include <QSqlDatabase>
 #include <QDir>
 #include <QSqlQuery>
-#include <QDebug>
-#include <QSqlError>
 
 QSqlDatabase db;
 
@@ -48,7 +46,6 @@ void initDB()
                "(id integer primary key, "
                "subject_id integer, "
                "path text)");
-    qDebug()<<query.lastError();
 }
 
 bool deleteDB()

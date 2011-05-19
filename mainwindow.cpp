@@ -1,15 +1,20 @@
 #include "mainwindow.h"
-#include <QMessageBox>
 #include <QAction>
 #include <QMenuBar>
 #include <QFileDialog>
-#include <QDir>
+#include <QDesktopServices>
 #include <QSqlQuery>
 #include <QVBoxLayout>
+#include <QStringList>
+#include <QApplication>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
+    QWidgetList allWidgets = QApplication::allWidgets();
+    foreach(QWidget* widget, allWidgets)
+           widget->setContextMenuPolicy(Qt::NoContextMenu);
+
     my_TT=new TimeTable();
     setCentralWidget(my_TT);
     createMyMenu();
@@ -17,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::createMyMenu()
 {
         //add menu item help to File
-        menu_add_file = new QAction(tr("Attach Picture or other file"), this);
+        menu_add_file = new QAction(tr("Attach image or text file"), this);
         menuBar()->addAction(menu_add_file);
         connect(menu_add_file, SIGNAL(triggered()), this, SLOT(add_fileAction()));
         //add menu item help to menu
@@ -61,12 +66,14 @@ void MainWindow::versionAction()
 }
 void MainWindow::add_fileAction()
 {
-QFileDialog *dialog=new QFileDialog();
-dialog->setDirectory("C:/data/Images/");
+QFileDialog *dialog=new QFileDialog(this);
+QStringList filters;
+filters<<"Image or text files (*.jpg *.png *.bmp *.txt)";
+dialog->setFilters(filters);
+dialog->setDirectory(QDesktopServices::storageLocation(QDesktopServices::PicturesLocation));
 connect(dialog,SIGNAL(fileSelected(QString)),this,SLOT(saveFiles(QString)));
-dialog->show();
+dialog->showFullScreen();
 
-//file=QFileDialog::directory();
 }
 void MainWindow::saveFiles(QString path_file)
 {
@@ -103,9 +110,5 @@ void MainWindow::on_save_clicked(QListWidgetItem *item)
 
 MainWindow::~MainWindow()
 {
-    delete menu_editTTAction;
-    delete menu_versionAction;
-    delete menu_exitAction;
-    delete menu_add_file;
 
 }
