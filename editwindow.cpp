@@ -10,8 +10,13 @@
 #include "mainwindow.h"
 
 EditWindow::EditWindow(QString mode, Row *row, QWidget *parent) :
-    QWidget(parent)
+    QScrollArea(parent)
 {
+    inScroll = new QWidget(this);
+    setWidgetResizable(true);
+    setWidget(inScroll);
+    setContentsMargins(0,0,0,0);
+
     dayBox = new QComboBox(this);
     QStringList days;
     days<<"Monday"<<"Thuesday"<<"Wednesday"<<"Thursday"<<"Friday"<<"Saturday"<<"Sunday";
@@ -23,7 +28,6 @@ EditWindow::EditWindow(QString mode, Row *row, QWidget *parent) :
     while (query.next())
         subjBox->addItem(query.value(0).toString());
     qDebug()<<query.lastError();
-    subjBox->addItem("Add new");
 
     insl = new QWidget(this);
     subjEdit = new QLineEdit(this);
@@ -40,7 +44,11 @@ EditWindow::EditWindow(QString mode, Row *row, QWidget *parent) :
 
     locEdit = new QLineEdit(this);
     startTime = new QTimeEdit(this);
+    startTime->setDisplayFormat("h:mm");
     endTime = new QTimeEdit(this);
+    endTime->setDisplayFormat("h:mm");
+
+
     QHBoxLayout *timeLayout = new QHBoxLayout;
     QHBoxLayout *dayLayout = new QHBoxLayout;
     QHBoxLayout *btnLayout = new QHBoxLayout;
@@ -50,8 +58,6 @@ EditWindow::EditWindow(QString mode, Row *row, QWidget *parent) :
     vbl->addWidget(new QLabel("Subject"));
     vbl->addWidget(subjBox);
     vbl->addWidget(insl);
-    if (subjBox->count()!=1)
-        insl->hide();
     vbl->addWidget(new QLabel("Location"));
     vbl->addWidget(locEdit);
     vbl->addWidget(new QLabel("Time"));
@@ -71,6 +77,7 @@ EditWindow::EditWindow(QString mode, Row *row, QWidget *parent) :
 
     if (mode == "new")
     {
+        subjBox->addItem("Add new");
         connect(commitBtn,SIGNAL(clicked()),this,SLOT(on_commitBtnN_clicked()));
     }
     if (mode == "edit")
@@ -84,10 +91,13 @@ EditWindow::EditWindow(QString mode, Row *row, QWidget *parent) :
         _id = row->_id;
     }
 
+    if (subjBox->count()!=1)
+        insl->hide();
+
     btnLayout->addWidget(backBtn);
     vbl->addItem(btnLayout);
 
-    setLayout(vbl);
+    inScroll->setLayout(vbl);
 
     connect(backBtn,SIGNAL(clicked()),this,SLOT(on_backBtn_clicked()));
     connect(subjBox,SIGNAL(currentIndexChanged(QString)),this,SLOT(on_subjBox_changed(QString)));
@@ -113,12 +123,23 @@ void EditWindow::on_commitBtnN_clicked()
     }
     else
     {
-        query.exec("insert into subjects (subject, type, professor)"
-                   "values ('" + subjEdit->text() + "','"
-                   + typeEdit->text() + "','" + profEdit->text() + "')");
-        query.exec("select id from subjects");
-        query.last();
-        subj_id = query.value(0).toInt();
+        if (subjEdit->text() != "")
+        {
+            query.exec("insert into subjects (subject, type, professor)"
+                       "values ('" + subjEdit->text() + "','"
+                       + typeEdit->text() + "','" + profEdit->text() + "')");
+            query.exec("select id from subjects");
+            query.last();
+            subj_id = query.value(0).toInt();
+        }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.setInformativeText("Input name of new subject in field 'Subject'!");
+            msgBox.setStandardButtons(QMessageBox::Ok);
+            int ret = msgBox.exec();
+            return;
+        }
     }
 
     query.exec("insert into weeks (subject_id, location, "
@@ -140,12 +161,14 @@ void EditWindow::on_commitBtnN_clicked()
 
 void EditWindow::on_commitBtnE_clicked()
 {
-       QSqlQuery query;
+    QSqlQuery query;
+    int subj_id;
+    query.exec("select id from subjects where subject = '" + subjBox->currentText() + "'");
+    query.next();
+    subj_id = query.value(0).toInt();
     query.exec("update weeks set "
-               "subject='testSubj"
-               "',type='testType"
-               "',professor='testProf"
-               "',location='" + locEdit->text()
+               "subject_id='" + QString::number(subj_id)
+               + "',location='" + locEdit->text()
                + "',start_h=" + QString::number(startTime->time().hour())
                + ",start_m=" + QString::number(startTime->time().minute())
                + ",end_h=" + QString::number(endTime->time().hour())
@@ -162,6 +185,6 @@ void EditWindow::on_backBtn_clicked()
 {
     MainWindow *my_window= new MainWindow();
     close();
-  my_window->showMaximized();
+    my_window->showMaximized();
 }
 
