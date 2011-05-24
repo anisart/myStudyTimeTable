@@ -91,8 +91,9 @@ EditWindow::EditWindow(QString mode, Row *row, QWidget *parent) :
         _id = row->_id;
     }
 
-    if (subjBox->count()!=1)
-        insl->hide();
+    insl->hide();
+    if ((mode == "new") && (subjBox->count() == 1))
+        insl->show();
 
     btnLayout->addWidget(backBtn);
     vbl->addItem(btnLayout);
@@ -152,10 +153,10 @@ void EditWindow::on_commitBtnN_clicked()
                + QString::number(endTime->time().minute()) + ","
                + QString::number(dayBox->currentIndex()) + ")");
     qDebug()<<query.lastError();
+    emit dataChanged();
     MainWindow *my_window= new MainWindow();
- //   my_window->showMaximized();
     close();
-     my_window->showMaximized();
+    my_window->showMaximized();
 
 }
 
@@ -176,15 +177,14 @@ void EditWindow::on_commitBtnE_clicked()
                + ",weekday=" + QString::number(dayBox->currentIndex())
                + " where id=" + QString::number(_id));
     qDebug()<<query.lastError();
+    emit dataChanged();
     MainWindow *my_window= new MainWindow();
     close();
- my_window->showMaximized();
+    my_window->showMaximized();
 }
 
 void EditWindow::on_backBtn_clicked()
 {
-    MainWindow *my_window= new MainWindow();
     close();
-    my_window->showMaximized();
 }
 

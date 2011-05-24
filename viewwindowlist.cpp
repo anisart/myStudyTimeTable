@@ -3,12 +3,11 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QVariant>
-#include <QString>
 #include <QListWidget>
 #include <QSqlQuery>
 #include <QDesktopServices>
 #include <QUrl>
-#include <QPushButton>
+
 ViewWindowList::ViewWindowList(int subject_id,QWidget *parent) :
     QWidget(parent)
 {
@@ -27,8 +26,10 @@ ViewWindowList::ViewWindowList(int subject_id,QWidget *parent) :
 
 void ViewWindowList::on_view_clicked(QListWidgetItem *item)
 {
+    #ifdef Q_OS_LINUX
+    QDesktopServices::openUrl(QUrl("File://"+item->text()));
+    #else
     QDesktopServices::openUrl(QUrl("File:///"+item->text()));
-    qDebug()<<item->text();
-
+    #endif
 }
 

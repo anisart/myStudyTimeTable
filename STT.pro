@@ -1,9 +1,15 @@
 QT += sql
 
+TEMPLATE = app
 TARGET = myStudyTimeTable
+VERSION = 1.0
+ICON = icon.svg
 
-symbian:TARGET.UID3 = 0xE639CADE
-symbian:TARGET = myStudyTimeTable
+symbian: {
+    TARGET.UID3 = 0xE639CADE
+    TARGET = myStudyTimeTable
+    TARGET.CAPABILITY +=
+}
 
 SOURCES += \
     main.cpp \

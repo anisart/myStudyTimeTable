@@ -6,7 +6,6 @@
 #include <QDebug>
 #include <QVariant>
 #include <QString>
-#include <QAction>
 #include <QMenuBar>
 
 
@@ -27,6 +26,8 @@ TimeTable::TimeTable(QWidget *parent) :
     //setBackgroundRole(QPalette::Dark);
     setWidget(inScroll);
     setContentsMargins(0,0,0,0);
+
+    connect(this,SIGNAL(closed()),parent,SLOT(close()));
 }
 void TimeTable::createTable()
 {
@@ -79,4 +80,9 @@ void TimeTable::createTable()
     while (query.next())
         inScroll->layout()->addWidget(new Row(query,6,this));
 
+}
+
+void TimeTable::closeEvent(QCloseEvent *e)
+{
+    emit closed();
 }

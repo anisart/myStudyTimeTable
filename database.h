@@ -25,7 +25,7 @@ bool openDB()
 void initDB()
 {
     QSqlQuery query;
-    query.exec("create table weeks"
+    query.exec("create table if not exists weeks"
                "(id integer primary key, "
                "subject_id integer, "
                "location text, "
@@ -35,17 +35,23 @@ void initDB()
                "end_m integer, "
                "weekday integer,"
                "is_week_upper boolean)");
-    query.exec("create table subjects"
+    query.exec("create table if not exists subjects"
                "(id integer primary key, "
                "subject text, "
                "subject_full text, "
                "type text, "
                "professor text, "
                "professor_full text)");
-    query.exec("create table files"
+    query.exec("create table if not exists files"
                "(id integer primary key, "
                "subject_id integer, "
                "path text)");
+
+    QFile file;
+    QSqlQuery dquery;
+    while (query.next())
+        if (!file.exists(query.value(0).toString()))
+            dquery.exec("delete from files where id=" + query.value(1).toString());
 }
 
 bool deleteDB()

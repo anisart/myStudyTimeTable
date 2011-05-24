@@ -11,11 +11,8 @@
 #include <QPushButton>
 
 Row::Row(QSqlQuery dataQuery, int wday, QWidget *parent) :
-    QStackedWidget(parent)
+    QWidget(parent)
 {
-
-    QWidget *firstWidget = new QWidget(this);
-
     QGridLayout *gl = new QGridLayout();
 
 
@@ -46,22 +43,15 @@ Row::Row(QSqlQuery dataQuery, int wday, QWidget *parent) :
     gl->addWidget(locLab,1,2);
 
     gl->setColumnStretch(.1,.1);
-    firstWidget->setLayout(gl);
+    setLayout(gl);
     setMaximumHeight(70);
-    addWidget(firstWidget);
 
-
-}
-
-void Row::mousePressEvent(QMouseEvent *e)
-{
-    qDebug()<<"press id = "<<_id;
+    parentW=parent;
 }
 
 void Row::mouseReleaseEvent(QMouseEvent *e)
 {
     qDebug()<<"release id = "<<_id;
-    setCurrentIndex(1);
     ////////////////////////////////////
     QVBoxLayout *gl = new QVBoxLayout();
 
@@ -106,16 +96,12 @@ void Row::mouseReleaseEvent(QMouseEvent *e)
 
 
 }
-void Row::on_backBtn_clicked()
-{
-    setCurrentIndex(0);
-}
 
 void Row::on_editBtn_clicked()
 {
     EditWindow *editWin = new EditWindow("edit",this);
     editWin->showFullScreen();
-    setCurrentIndex(0);
+    connect(editWin,SIGNAL(dataChanged()),parentW,SLOT(close()));
 }
 
 void Row::deleteRow()
