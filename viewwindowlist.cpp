@@ -8,13 +8,13 @@
 #include <QDesktopServices>
 #include <QUrl>
 
-ViewWindowList::ViewWindowList(int subject_id,QWidget *parent) :
+ViewWindowList::ViewWindowList(QString subject_id,QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout *vbl=new QVBoxLayout();
     QListWidget *list=new QListWidget();
     QSqlQuery query;
-    query.exec("select path from files where subject_id="+QString::number(subject_id));
+    query.exec("select path from files where subject_id=" + subject_id);
     while(query.next())
     {
         list->addItem(query.value(0).toString());

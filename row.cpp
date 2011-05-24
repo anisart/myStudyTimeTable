@@ -22,11 +22,11 @@ Row::Row(QSqlQuery dataQuery, int wday, QWidget *parent) :
     prof = dataQuery.value(5).toString();
     type = dataQuery.value(6).toString();
     loc = dataQuery.value(7).toString();
-    _id = dataQuery.value(8).toInt();
+    _id = dataQuery.value(8).toString();
     weekday = wday;
 
-    QLabel *stimeLab = new QLabel(stime.toString("h:mm"));
-    QLabel *etimeLab = new QLabel("~" + etime.toString("h:mm"));
+    QLabel *stimeLab = new QLabel(stime.toString("H:mm"));
+    QLabel *etimeLab = new QLabel("~" + etime.toString("H:mm"));
     QLabel *subjLab = new QLabel(subj);
     QLabel *profLab = new QLabel(prof);
     QLabel *typeLab = new QLabel(type);
@@ -55,7 +55,8 @@ void Row::mouseReleaseEvent(QMouseEvent *e)
     ////////////////////////////////////
     QVBoxLayout *gl = new QVBoxLayout();
 
-    QLabel *Lab = new QLabel("Time lessons: " + stime.toString("h:mm")+ " to " + etime.toString("h:mm"));
+    QLabel *Lab = new QLabel("Time lessons: " + stime.toString("H:mm")+ " to "
+                             + etime.toString("H:mm"));
     QLabel *subjLab = new QLabel("Subject: "+subj);
     QLabel *profLab = new QLabel("Professor: "+prof);
     QLabel *typeLab = new QLabel("Type: "+ type);
@@ -106,7 +107,7 @@ void Row::on_editBtn_clicked()
 
 void Row::deleteRow()
 {
-    query.exec("delete from weeks where  id = " + QString::number(_id));
+    query.exec("delete from weeks where  id = " + _id);
     qDebug()<<query.lastError();
 }
 
@@ -119,12 +120,12 @@ void Row::on_deleteBtn_clicked()
 void Row::on_fileBtn_clicked()
 {
     QSqlQuery query;
-    query.exec("select subject_id from weeks where id = "+QString::number(_id));
+    query.exec("select subject_id from weeks where id = " + _id);
     query.next();
     QWidget *wig=new QWidget();
     QPushButton *closeBtn=new QPushButton("Close");
     QVBoxLayout *vbl=new QVBoxLayout();
-    ViewWindowList *viewWin= new ViewWindowList(query.value(0).toInt(),this);
+    ViewWindowList *viewWin= new ViewWindowList(query.value(0).toString(),this);
     vbl->addWidget(viewWin);
     vbl->addWidget(closeBtn);
     wig->setLayout(vbl);

@@ -18,9 +18,9 @@ class Row : public QWidget
 
 public:
     explicit Row(QSqlQuery dataQuery, int wday, QWidget *parent = 0);
-    QString subj, prof, type, loc;
+    QString subj, prof, type, loc, _id;
     QTime stime, etime;
-    int weekday, _id;
+    int weekday;
 
 signals:
 

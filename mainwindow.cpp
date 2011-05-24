@@ -95,9 +95,8 @@ void MainWindow::on_save_clicked(QListWidgetItem *item)
     QSqlQuery query;
     query.exec("select id from subjects where subject = '" + item->text() + "'");
     query.next();
-    int subj_id = query.value(0).toInt();
-    query.exec("insert into files (path, subject_id) values ('"+path+"','"
-               +QString::number(subj_id)+"')");
+    query.exec("insert into files (path, subject_id) values ('" + path + "','"
+               + query.value(0).toString() + "')");
 }
 
 MainWindow::~MainWindow()

@@ -8,7 +8,7 @@ class ViewWindowList : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ViewWindowList(int subject_id=0,QWidget *parent = 0);
+    explicit ViewWindowList(QString subject_id=0,QWidget *parent = 0);
 
 signals:
 

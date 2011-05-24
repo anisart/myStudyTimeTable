@@ -15,10 +15,12 @@ class EditWindow : public QScrollArea
     QPushButton *commitBtn, *backBtn;
     QLineEdit *locEdit, *subjEdit, *typeEdit, *profEdit;
     QTimeEdit *startTime, *endTime;
-    QComboBox *subjBox, *dayBox;
+    QComboBox *subjBox, *dayBox, *weekBox;
     QWidget *insl;
     QWidget *inScroll;
-    int _id;
+    QString _id;
+
+    void insertRow(QString subj, QString week);
 
 public:
     explicit EditWindow(QString mode = "new", Row *row = 0, QWidget *parent = 0);

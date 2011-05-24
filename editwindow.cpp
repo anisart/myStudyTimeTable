@@ -22,6 +22,11 @@ EditWindow::EditWindow(QString mode, Row *row, QWidget *parent) :
     days<<"Monday"<<"Thuesday"<<"Wednesday"<<"Thursday"<<"Friday"<<"Saturday"<<"Sunday";
     dayBox->addItems(days);
 
+    weekBox = new QComboBox(this);
+    QStringList weeks;
+    weeks<<"Lower"<<"Upper";
+    weekBox->addItems(weeks);
+
     subjBox = new QComboBox(this);
     QSqlQuery query;
     query.exec("select subject from subjects");
@@ -51,6 +56,7 @@ EditWindow::EditWindow(QString mode, Row *row, QWidget *parent) :
 
     QHBoxLayout *timeLayout = new QHBoxLayout;
     QHBoxLayout *dayLayout = new QHBoxLayout;
+    QHBoxLayout *weekLayout = new QHBoxLayout;
     QHBoxLayout *btnLayout = new QHBoxLayout;
     backBtn = new QPushButton("Back",this);
 
@@ -72,12 +78,17 @@ EditWindow::EditWindow(QString mode, Row *row, QWidget *parent) :
     dayLayout->addWidget(dayBox);
     vbl->addItem(dayLayout);
 
+    weekLayout->addWidget(new QLabel("Week"));
+    weekLayout->addWidget(weekBox);
+    vbl->addItem(weekLayout);
+
     commitBtn = new QPushButton("Commit",this);
     btnLayout->addWidget(commitBtn);
 
     if (mode == "new")
     {
         subjBox->addItem("Add new");
+        weekBox->addItem("Both");
         connect(commitBtn,SIGNAL(clicked()),this,SLOT(on_commitBtnN_clicked()));
     }
     if (mode == "edit")
@@ -115,12 +126,13 @@ void EditWindow::on_subjBox_changed(QString item)
 void EditWindow::on_commitBtnN_clicked()
 {
     QSqlQuery query;
-    int subj_id;
+    QString subj_id;
+
     if (subjBox->currentText() != "Add new")
     {
         query.exec("select id from subjects where subject = '" + subjBox->currentText() + "'");
         query.next();
-        subj_id = query.value(0).toInt();
+        subj_id = query.value(0).toString();
     }
     else
     {
@@ -131,7 +143,7 @@ void EditWindow::on_commitBtnN_clicked()
                        + typeEdit->text() + "','" + profEdit->text() + "')");
             query.exec("select id from subjects");
             query.last();
-            subj_id = query.value(0).toInt();
+            subj_id = query.value(0).toString();
         }
         else
         {
@@ -143,16 +155,13 @@ void EditWindow::on_commitBtnN_clicked()
         }
     }
 
-    query.exec("insert into weeks (subject_id, location, "
-               "start_h, start_m, end_h, end_m, weekday) values ("
-               + QString::number(subj_id) + ",'"
-               + locEdit->text() + "',"
-               + QString::number(startTime->time().hour()) + ","
-               + QString::number(startTime->time().minute()) + ","
-               + QString::number(endTime->time().hour()) + ","
-               + QString::number(endTime->time().minute()) + ","
-               + QString::number(dayBox->currentIndex()) + ")");
-    qDebug()<<query.lastError();
+    switch (weekBox->currentIndex())
+    {
+    case 0: insertRow(subj_id,"1");
+    case 1: insertRow(subj_id,"0");
+    case 2: insertRow(subj_id,"1");
+            insertRow(subj_id,"0");
+    }
     emit dataChanged();
     MainWindow *my_window= new MainWindow();
     close();
@@ -163,19 +172,18 @@ void EditWindow::on_commitBtnN_clicked()
 void EditWindow::on_commitBtnE_clicked()
 {
     QSqlQuery query;
-    int subj_id;
     query.exec("select id from subjects where subject = '" + subjBox->currentText() + "'");
     query.next();
-    subj_id = query.value(0).toInt();
     query.exec("update weeks set "
-               "subject_id='" + QString::number(subj_id)
+               "subject_id='" + query.value(0).toString()
                + "',location='" + locEdit->text()
-               + "',start_h=" + QString::number(startTime->time().hour())
-               + ",start_m=" + QString::number(startTime->time().minute())
-               + ",end_h=" + QString::number(endTime->time().hour())
-               + ",end_m=" + QString::number(endTime->time().minute())
+               + "',start_h=" + startTime->time().toString("H")
+               + ",start_m=" + startTime->time().toString("mm")
+               + ",end_h=" + endTime->time().toString("H")
+               + ",end_m=" + endTime->time().toString("mm")
                + ",weekday=" + QString::number(dayBox->currentIndex())
-               + " where id=" + QString::number(_id));
+               + ",is_week_upper=" + QString::number(weekBox->currentIndex())
+               + " where id=" + _id);
     qDebug()<<query.lastError();
     emit dataChanged();
     MainWindow *my_window= new MainWindow();
@@ -188,3 +196,17 @@ void EditWindow::on_backBtn_clicked()
     close();
 }
 
+void EditWindow::insertRow(QString subj, QString week)
+{
+    QSqlQuery query;
+    query.exec("insert into weeks (subject_id, location, start_h, "
+               "start_m, end_h, end_m, weekday, is_week_upper) values ("
+               + subj + ",'"
+               + locEdit->text() + "',"
+               + startTime->time().toString("H") + ","
+               + startTime->time().toString("mm") + ","
+               + endTime->time().toString("H") + ","
+               + endTime->time().toString("mm") + ","
+               + QString::number(dayBox->currentIndex()) + ","
+               + week + ")");
+}
