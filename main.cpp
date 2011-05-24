@@ -2,11 +2,10 @@
 #include "mainwindow.h"
 #include "database.h"
 
-
+#include <QDebug>
 
 int main(int my_argc, char **my_argv)
 {
-    QApplication::setGraphicsSystem("raster");
     QApplication my_app(my_argc,my_argv);
     my_app.setStyleSheet("#day { color: blue; background-color: yellow }");
     openDB();

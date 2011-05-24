@@ -11,12 +11,18 @@ class TimeTable : public QScrollArea
     QWidget *inScroll;
     QLabel dayLabel[7];
 
+    void createTable();
+
 public:
     explicit TimeTable(QWidget *parent = 0);
-    void createTable();
+
 signals:
+    void closed();
 
 public slots:
+
+protected:
+    void closeEvent(QCloseEvent *);
 
 };
 

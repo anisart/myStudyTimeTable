@@ -10,7 +10,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    my_TT=new TimeTable();
+    my_TT=new TimeTable(this);
     setCentralWidget(my_TT);
     createMyMenu();
 }
@@ -24,7 +24,6 @@ void MainWindow::createMyMenu()
         menu_editTTAction = new QAction(tr("Add item"), this);
         menuBar()->addAction(menu_editTTAction);
         connect(menu_editTTAction, SIGNAL(triggered()), this, SLOT(editTTAction()));
-        connect(menu_editTTAction, SIGNAL(triggered()), this, SLOT(close()));
         //add menu item help to Version
         menu_versionAction = new QAction(tr("Version"), this);
         menuBar()->addAction(menu_versionAction);
@@ -40,11 +39,9 @@ void MainWindow::createMyMenu()
 //Handle action for help menu.
 void MainWindow::editTTAction()
 {
-
-
     edit= new EditWindow();
     edit->showFullScreen();
-
+    connect(edit,SIGNAL(dataChanged()),this,SLOT(close()));
 }
 
 //Handle action for help Version.

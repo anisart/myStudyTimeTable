@@ -1,18 +1,18 @@
 #ifndef ROW_H
 #define ROW_H
 
-#include <QStackedWidget>
 #include <QSqlQuery>
 #include <QMouseEvent>
 #include <QPushButton>
 #include <QTime>
 
-class Row : public QStackedWidget
+class Row : public QWidget
 {
     Q_OBJECT
 
     QSqlQuery query;
     QPushButton *backBtn, *editBtn, *deleteBtn, *fileBtn ;
+    QWidget *parentW;
 
     void deleteRow();
 
@@ -25,13 +25,11 @@ public:
 signals:
 
 public slots:
-    void on_backBtn_clicked();
     void on_editBtn_clicked();
     void on_deleteBtn_clicked();
     void on_fileBtn_clicked();
 
 protected:
-    void mousePressEvent(QMouseEvent *e);
     void mouseReleaseEvent(QMouseEvent *e);
 
 

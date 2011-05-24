@@ -24,6 +24,7 @@ public:
     explicit EditWindow(QString mode = "new", Row *row = 0, QWidget *parent = 0);
 
 signals:
+    void dataChanged();
 
 public slots:
     void on_subjBox_changed(QString);
