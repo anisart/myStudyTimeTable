@@ -9,7 +9,8 @@
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-   TimeTable *my_TT;
+   TimeTable *my_TTU;
+   TimeTable *my_TTL;
    EditWindow *edit;
    QString path;
 

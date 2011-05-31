@@ -11,11 +11,11 @@ class TimeTable : public QScrollArea
     QWidget *inScroll;
     QLabel dayLabel[7];
 
-    void createTable();
+
 
 public:
-    explicit TimeTable(QWidget *parent = 0);
-
+    explicit TimeTable(QWidget *parent = 0, QString weekIsUpper= 0);
+    void createTable(QString week);
 signals:
     void closed();
 

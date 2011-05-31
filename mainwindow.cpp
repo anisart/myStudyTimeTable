@@ -6,12 +6,21 @@
 #include <QSqlQuery>
 #include <QVBoxLayout>
 #include <QStringList>
+#include <QHBoxLayout>
+#include <QPushButton>
+#include <QTabWidget>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    my_TT=new TimeTable(this);
-    setCentralWidget(my_TT);
+    // Create QTabWidget
+    QTabWidget *tabWidget = new QTabWidget(this);
+    tabWidget->setContextMenuPolicy(Qt::NoContextMenu);
+    my_TTU = new TimeTable(this,"1");
+    tabWidget->addTab(my_TTU, "Upper");
+    my_TTL  = new TimeTable(this,"0");
+    tabWidget->addTab(my_TTL, "Lower");
+    setCentralWidget(tabWidget);
     createMyMenu();
 }
 void MainWindow::createMyMenu()
@@ -63,8 +72,8 @@ QStringList filters;
 filters<<"Image or text files (*.jpg *.png *.bmp *.txt)";
 dialog->setFilters(filters);
 dialog->setDirectory(QDesktopServices::storageLocation(QDesktopServices::PicturesLocation));
-connect(dialog,SIGNAL(fileSelected(QString)),this,SLOT(saveFiles(QString)));
 dialog->showFullScreen();
+connect(dialog,SIGNAL(fileSelected(QString)),this,SLOT(saveFiles(QString)));
 
 }
 void MainWindow::saveFiles(QString path_file)

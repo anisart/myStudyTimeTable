@@ -155,13 +155,13 @@ void EditWindow::on_commitBtnN_clicked()
         }
     }
 
-    switch (weekBox->currentIndex())
+    if(weekBox->currentIndex()== 0) insertRow(subj_id,"0");
+    if(weekBox->currentIndex()== 1) insertRow(subj_id,"1");
+    if(weekBox->currentIndex()== 2)
     {
-    case 0: insertRow(subj_id,"1");
-    case 1: insertRow(subj_id,"0");
-    case 2: insertRow(subj_id,"1");
-            insertRow(subj_id,"0");
-    }
+        insertRow(subj_id,"1");
+        insertRow(subj_id,"0");
+   }
     emit dataChanged();
     MainWindow *my_window= new MainWindow();
     close();

@@ -26,10 +26,10 @@ ViewWindowList::ViewWindowList(QString subject_id,QWidget *parent) :
 
 void ViewWindowList::on_view_clicked(QListWidgetItem *item)
 {
-    #ifdef Q_OS_LINUX
-    QDesktopServices::openUrl(QUrl("File://"+item->text()));
-    #else
+  //  #ifdef Q_OS_LINUX
+ //   QDesktopServices::openUrl(QUrl("File://"+item->text()));
+ //   #else
     QDesktopServices::openUrl(QUrl("File:///"+item->text()));
-    #endif
+    //#endif
 }
 
