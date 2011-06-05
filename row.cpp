@@ -79,11 +79,20 @@ void Row::mouseReleaseEvent(QMouseEvent *e)
 
     QVBoxLayout *vbl=new QVBoxLayout();
     vbl->addLayout(gl);
+    #ifdef Q_WS_MAEMO_5
+    QGridLayout *btns=new QGridLayout();
+    btns->addWidget(fileBtn,0,0);
+    btns->addWidget(editBtn,0,1);
+    btns->addWidget(deleteBtn,1,0);
+    btns->addWidget(backBtn,1,1);
+    vbl->addLayout(btns);
+    #else
     vbl->addWidget(fileBtn);
     vbl->addWidget(editBtn);
     vbl->addWidget(deleteBtn);
-    info->setLayout(vbl);
     vbl->addWidget(backBtn);
+    #endif
+    info->setLayout(vbl);
     connect(backBtn,SIGNAL(clicked()),info,SLOT(close()));
     connect(editBtn,SIGNAL(clicked()),this,SLOT(on_editBtn_clicked()));
     connect(editBtn,SIGNAL(clicked()),info,SLOT(close()));
